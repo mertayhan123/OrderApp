@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=Poetsen+One&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+body {
+  font-family: "Poetsen One", "sans-serif";
+  font-weight: 400;
+  font-style: normal;
+  
+}
+
+.text-small {
+  font-size: 10px !important;
+}
+
+
+.color{
+  color:#074173
+}
+.button-color{
+  background-color:#074173
+}
+
+.button-color:hover{
+  background-color:#1679AB
+}
+
+.bgcolor{
+  background-color:#C5FF95
+}
+
+
+@media (min-width: 768px) {
+  .categories::-webkit-scrollbar {
+    display: none;
+  }
+  body{
+    overflow:hidden
+
+  }
+}
