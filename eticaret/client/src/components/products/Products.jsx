@@ -3,10 +3,14 @@ import { useState } from "react";
 import ProductItem from "./ProductItem";
 import { EditOutlined,PlusCircleOutlined } from "@ant-design/icons";
 import Add from "./Add";
+import {  useNavigate } from "react-router-dom";
 
 const Products = ({categories}) => {
   const [products, setProducts] = useState([]);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+
+
+  const navigate =useNavigate();
 
   useEffect(() => {
     const getProducts = async () => {
@@ -29,7 +33,7 @@ const Products = ({categories}) => {
       <div className="product-item  border hover:shadow-lg cursor-pointer transition-all select-none bg-black flex justify-center items-center rounded-lg hover:opacity-75" onClick={()=> setIsAddModalOpen(true)}>
       <PlusCircleOutlined className="text-8xl text-white"/>
       </div>
-      <div className="product-item  border hover:shadow-lg cursor-pointer transition-all select-none bg-black flex justify-center items-center rounded-lg hover:opacity-75">
+      <div className="product-item  border hover:shadow-lg cursor-pointer transition-all select-none bg-black flex justify-center items-center rounded-lg hover:opacity-75" onClick={()=>navigate("/product")}>
       <EditOutlined className="text-8xl text-white"/>
       </div>
       <Add isAddModalOpen={isAddModalOpen} setIsAddModalOpen={setIsAddModalOpen} products={products} setProducts={setProducts} categories={categories} />
