@@ -9,13 +9,19 @@ const HomePage = () => {
 
 
     const [categories, setCategories] = useState([])
+
     useEffect(() => {
        const getcategories = async () => {
        try
        {
         const res = await fetch("http://localhost:3000/api/categories/get-all")
         const data = await res.json()
-        setCategories(data)
+        data &&
+        setCategories(
+          data.map((item) => {
+            return { ...item, value: item.title };
+          })
+        );
         
        }
         catch (error) {
@@ -39,7 +45,7 @@ const HomePage = () => {
       </div>
 
       <div className="products flex-[8] max-h-[calc(100vh_-_112px)] overflow-y-auto pb-10c">
-      <Products />
+      <Products categories={categories} />
       </div>
 
       <div className="ml-2">
