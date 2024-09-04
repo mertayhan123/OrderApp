@@ -1,9 +1,17 @@
 import React from "react";
 import { Modal } from "antd";
 import { Button, Card, Form, Input, Select } from "antd";
+import { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
 
-const PrintBill = ({ isModalOpen, setIsModalOpen }) => {
- 
+const PrintBill = ({ isModalOpen, setIsModalOpen, customer }) => {
+
+  const componentRef = useRef();
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+  const date = new Date(customer.createdAt).toLocaleDateString("tr-TR");
+  
   return (
     <Modal
       title="Fatura Yazdır"
@@ -12,12 +20,13 @@ const PrintBill = ({ isModalOpen, setIsModalOpen }) => {
       onCancel={() => setIsModalOpen(false)}
       width={800}
     >
-      
-      <section className="py-20 bg-black">
+      <section className="py-20 bg-black" ref={componentRef}>
         <div className="max-w-5xl mx-auto bg-white px-6">
           <article className="overflow-hidden">
             <div className="logo my-6">
-              <h2 className="text-4xl font-bold color ">AYHAN</h2>
+              <h2 className="text-4xl font-bold color ">
+                {customer.customerName}
+              </h2>
             </div>
             <div className="bill-details">
               <div className="grid grid-cols-4 gap-12">
@@ -36,13 +45,11 @@ const PrintBill = ({ isModalOpen, setIsModalOpen }) => {
                 <div className="text-md text-slate-500">
                   <div>
                     <p className="font-bold color">Fatura numarası:</p>
-                    <p>00041</p>
+                    <p>000{Math.floor(Math.random() * 100)}</p>{" "}
                   </div>
                   <div>
-                    <p className="font-bold color mt-2">
-                      Veriliş Tarihi:
-                    </p>
-                    <p>2023-09-21</p>
+                    <p className="font-bold color mt-2">Veriliş Tarihi:</p>
+                    <p>{date}</p>{" "}
                   </div>
                 </div>
                 <div className="text-md color">
@@ -89,46 +96,32 @@ const PrintBill = ({ isModalOpen, setIsModalOpen }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className="border-b border-slate-200">
+                  {customer?.cartItems?.map((item) => (
+
+                    <tr className="border-b border-slate-200">
                     <td className="py-4">
-                      <span className="font-medium">Şalgam</span>
+                      <span className="font-medium">{item.title}</span>
                     </td>
                     <td className="py-4 text-center">
-                      <span>5₺</span>
+                      <span>{item.price}₺</span>
                     </td>
                     <td className="py-4 text-center">
-                      <span>1</span>
+                      <span>{item.sayac}</span>
                     </td>
                     <td className="py-4 text-end">
-                      <span>5.00₺</span>
+                      <span>{item.sayac * item.price}₺</span>
                     </td>
-                  </tr>
+                  </tr>))}
                 </tbody>
                 <tfoot>
-                  <tr>
-                    <th className="text-left pt-6" colSpan="4" scope="row">
-                      <span className="font-normal text-slate-700">
-                        Ara Toplam
-                      </span>
-                    </th>
-                    <th className="text-left pt-4" scope="row">
-                      <span className="font-normal text-slate-700">61₺</span>
-                    </th>
-                  </tr>
-                  <tr>
-                    <th className="text-left pt-4" colSpan="4" scope="row">
-                      <span className="font-normal text-slate-700">KDV</span>
-                    </th>
-                    <th className="text-left pt-4" scope="row">
-                      <span className="font-normal text-slate-700">4.88₺</span>
-                    </th>
-                  </tr>
+                 
+                 
                   <tr>
                     <th className="text-left pt-4" colSpan="4" scope="row">
                       <span className="font-normal text-slate-700">Total</span>
                     </th>
                     <th className="text-left pt-4" scope="row">
-                      <span className="font-normal text-slate-700">65.88₺</span>
+                      <span className="font-normal text-slate-700">{customer?.subTotal}₺</span>
                     </th>
                   </tr>
                 </tfoot>
@@ -147,7 +140,7 @@ const PrintBill = ({ isModalOpen, setIsModalOpen }) => {
         </div>
       </section>
       <div className="flex justify-end mt-4">
-        <Button type="primary" size="large">
+        <Button type="primary" size="large" onClick={handlePrint}>
           Yazdır
         </Button>
       </div>

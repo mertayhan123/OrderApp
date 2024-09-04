@@ -1,39 +1,71 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Header from "../components/header/Header";
 import Kullanici from "../images/user.png";
 import Statistic from "../components/statistic/StatisticCard";
 import Sale from "../images/sale.png";
-import Money from "../images/money.png";
 import Product from "../images/product.png";
-import { Pie } from '@ant-design/plots';
+import { Pie } from "@ant-design/plots";
+import { PieChart } from '@mui/x-charts/PieChart';
+
+
 
 
 const StatisticPage = () => {
-  const config = {
-    data: [
-      { type: '分类一', value: 27 },
-      { type: '分类二', value: 25 },
-      { type: '分类三', value: 18 },
-      { type: '分类四', value: 15 },
-      { type: '分类五', value: 10 },
-      { type: '其他', value: 5 },
-    ],
-    angleField: 'value',
-    colorField: 'type',
-    label: {
-      text: 'value',
-      style: {
-        fontWeight: 'bold',
-      },
-    },
-    legend: {
-      color: {
-        title: false,
-        position: 'right',
-        rowPadding: 5,
-      },
-    },
+  const [data, setData] = useState([]);
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    asyncFetch();
+  }, []);
+
+  useEffect(() => {
+    if (data.length > 0) {
+      updateProductStats();
+    }
+  }, [data]);
+
+  const asyncFetch = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/api/bills/get-all");
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      console.log("fetch data failed", error);
+    }
   };
+  console.log(data,"data");
+
+  const updateProductStats = () => {
+    // Tüm cartItems dizilerini birleştirme
+    const allCartItems = data.flatMap((customer) => customer.cartItems);
+
+    // Aynı üründen toplam adet ve toplam satış miktarını hesaplama
+    const productStats = allCartItems.reduce((acc, item) => {
+      if (!acc[item.title]) {
+        acc[item.title] = { totalQuantity: 0, totalPrice: 0 };
+      }
+      acc[item.title].totalQuantity += item.sayac;
+      acc[item.title].totalPrice += item.price * item.sayac;
+      return acc;
+    }, {});
+
+    // Ürünleri Pie grafik için uygun formata dönüştürme
+    const productData = Object.keys(productStats).map((key) => ({
+      title: key,
+      value: productStats[key].totalQuantity,
+    }));
+
+    setProducts(productData);
+  };
+  console.log(products,"products");
+
+  const totalAmount = () => {
+    const amount = data.reduce((total, item) => item.subTotal + total, 0);
+    return `${amount.toFixed(2)}₺`;
+  };
+
+
+
   return (
     <>
       <Header />
@@ -45,20 +77,37 @@ const StatisticPage = () => {
             <span className="text-green-700 font-bold text-xl">Admin</span>
           </h2>
 
-          <div className="statistic-cards flex mt-5 justify-center lg:flex-row flex-col gap-4" >
-            <Statistic title="Toplam Kullanıcı" amount="100" img={Kullanici} />
-            <Statistic title="Toplam Satış" amount="100" img={Sale} />
-            <Statistic title="Toplam Gelir" amount="100" img={Money} />
-            <Statistic title="Toplam Ürün" amount="100" img={Product} />
+          <div className="statistic-cards flex mt-5 justify-center lg:flex-row flex-col gap-4">
+            <Statistic
+              title="Toplam Kullanıcı"
+              amount={data?.length}
+              img={Kullanici}
+            />
+            <Statistic title="Toplam Satış" amount={totalAmount()} img={Sale} />
+            <Statistic
+              title="Toplam Ürün"
+              amount={products.length}
+              img={Product}
+            />
           </div>
           <div className="flex justify-center gap-10 lg:flex-row flex-col items-center">
-         
-          <div className="flex justify-center">
-          <Pie {...config}/>
-
+            <div className="flex justify-center">
+              <PieChart
+                series={[
+                  {
+                    data: products.map((product) => ({
+                      label: product.title,
+                      value: product.value,
+                    })),
+                    
+                    
+                  },
+                ]}
+                width={900}
+                height={500}
+              />{" "}
+            </div>
           </div>
-          </div>
-          
         </div>
       </div>
     </>

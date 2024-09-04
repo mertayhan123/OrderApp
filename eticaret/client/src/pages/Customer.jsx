@@ -1,57 +1,55 @@
-import React from 'react'
+import React from "react";
 
-import Header from '../components/header/Header'
+import Header from "../components/header/Header";
+import { useState, useEffect } from "react";
 
 import { Table } from "antd";
 
 
-const Customer = () => {
-    const dataSource = [
-        {
-          key: "1",
-          name: "Mike",
-          age: 32,
-          address: "10 Downing Street",
-        },
-        {
-          key: "2",
-          name: "John",
-          age: 42,
-          address: "10 Downing Street",
-        },
-      ];
-    
-      const columns = [
-        {
-          title: "İsim",
-          dataIndex: "name",
-          key: "name",
-        },
-        {
-          title: "Yaş",
-          dataIndex: "age",
-          key: "age",
-        },
-        {
-          title: "Adres",
-          dataIndex: "address",
-          key: "address",
-        },
-      ];
-    return (
-        <>
-          <Header />
-          <div className="px-6">
-            <h1 className="text-4xl font-bold text-center mb-4">Müşterilerim</h1>
-            <Table
-              dataSource={dataSource}
-              columns={columns}
-              bordered
-              pagination={false}
-            />
-          </div>
-        </>
-      );
-}
+  
 
-export default Customer
+const Customer = () => {
+  const [bills, setBills] = useState([]);
+
+  useEffect(() => {
+  const getBills = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/api/bills/get-all");
+      const data = await res.json();
+      setBills(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  getBills();
+  }, []);
+  const columns = [
+    {
+      title: "İsim",
+      dataIndex: "customerName",
+      key: "customerName",
+    },
+    {
+      title: "Telefon",
+      dataIndex: "customerPhoneNumber",
+      key: "customerPhoneNumber",
+    },
+   
+  ];
+  return (
+    <>
+      <Header />
+      <div className="px-6">
+        <h1 className="text-4xl font-bold text-center mb-4">Müşterilerim</h1>
+        <Table
+          dataSource={bills}
+          columns={columns}
+          bordered
+          pagination={false}
+        />
+      </div>
+    </>
+  );
+};
+
+export default Customer;
