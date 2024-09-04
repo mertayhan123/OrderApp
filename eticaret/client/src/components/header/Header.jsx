@@ -9,12 +9,20 @@ import {  SearchOutlined,
     BarChartOutlined,
     LogoutOutlined } from '@ant-design/icons'; 
 
+import { useSelector } from "react-redux";    
+
 const Header = () => {
+
+
+  const cart = useSelector((state) => state.cart);
+  console.log(cart);
+
+
   return (
    <div className="border-b mb-2 bgcolor">
      <header className="flex justify-between items-center py-4 px-6 ">
       <div className="logo mr-2">
-        <a href="">
+        <a href="/">
           <h2 className="text-2xl font-bold md:text-4xl"> 
           AYHAN
           </h2>
@@ -30,7 +38,7 @@ const Header = () => {
             <span className="md:text-xs text-[10px]">Ana Sayfa</span>
           </Link>
           <Link to={"/cart"} className="menu-link  flex-col hover:text-[#40a9ff] md:flex hidden ">
-          <Badge count={5} className="hover:text-[#40a9ff]" >
+          <Badge count={cart.cartItems.length} className="hover:text-[#40a9ff]" >
             <ShoppingCartOutlined className="md:text-2xl text-xl justify-center" />
             </Badge>
             <span className="md:text-xs text-[10px]">Sepet</span>
@@ -54,7 +62,7 @@ const Header = () => {
           </a>
       </div>
       <a href={"/"} className="flex flex-col hover:text-[#40a9ff] md:hidden ml-2 mt-2 ">
-          <Badge count={5} className="hover:text-[#40a9ff]" >
+          <Badge count={cart.cartItems.length} className="hover:text-[#40a9ff]" >
             <ShoppingCartOutlined className="md:text-2xl text-xl justify-center" />
             </Badge>
             <span className="md:text-xs text-[10px]">Sepet</span>

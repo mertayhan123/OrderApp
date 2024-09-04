@@ -1,12 +1,44 @@
 import React from 'react'
 import { Modal } from "antd";
 import { Button, Card, Form, Input, Select } from "antd";
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { reset } from '../../redux/cartSlice';
+import { useNavigate } from 'react-router-dom';
+import { message } from 'antd';
 
 const Create = ({ isModalOpen, setIsModalOpen }) => {
-    const onFinish = (values) => {
-        console.log("Received values of form: ", values);
-      };
+    const dispatch = useDispatch();
+    const  navigate  = useNavigate();
+    const onFinish = async (values) => {
+
+      try {
+          const  res =  await fetch("http://localhost:3000/api/bills/add-bill",{
+          method:"POST",
+          body: JSON.stringify({
+            ...values,
+            subTotal: cart.total,           
+            cartItems: cart.cartItems,
+          }),          headers:{"Content-type":"application/json; charset=UTF-8"}
+        })
+        if (res.status === 200) {
+          message.success("Fatura başarıyla oluşturuldu.");
+          setIsModalOpen(false);
+          dispatch(reset());
+          navigate("/");
+        } 
+      }
+      
+      catch (error) {
+        console.log(error);
+      }
+    };
     
+
+      const cart = useSelector((state) => state.cart);
+
+      
+
   return (
     
     <div>
@@ -19,7 +51,7 @@ const Create = ({ isModalOpen, setIsModalOpen }) => {
        <Form layout={"vertical"} onFinish={onFinish}>
         <Form.Item
           label="Müşteri Adı"
-          name={"curtomerName"}
+          name={"customerName"}
           rules={[
             {
               required: true,
@@ -31,7 +63,7 @@ const Create = ({ isModalOpen, setIsModalOpen }) => {
         </Form.Item>
         <Form.Item
           rules={[{ required: true }]}
-          name={"phoneNumber"}
+          name={"customerPhoneNumber"}
           label="Tel No"
         >
           <Input placeholder="Bir Tel No Yazınız" maxLength={11} />
@@ -47,17 +79,10 @@ const Create = ({ isModalOpen, setIsModalOpen }) => {
           </Select>
         </Form.Item>
         <Card>
-          <div className="flex justify-between">
-            <span>Ara Toplam</span>
-            <span>549.00₺</span>
-          </div>
-          <div className="flex justify-between my-2">
-            <span>KDV Toplam %8</span>
-            <span className="text-red-600">+43.92₺</span>
-          </div>
+          
           <div className="flex justify-between">
             <b>Toplam</b>
-            <b>592.92₺</b>
+            <b>{cart.total}</b>
           </div>
           <div className="flex justify-end">
             <Button
@@ -65,6 +90,7 @@ const Create = ({ isModalOpen, setIsModalOpen }) => {
               type="primary"
               onClick={() => setIsModalOpen(true)}
               htmlType="submit"
+              disabled={cart.cartItems.length === 0}
             >
               Sipariş Oluştur
             </Button>
