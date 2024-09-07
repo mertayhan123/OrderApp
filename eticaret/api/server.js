@@ -7,8 +7,7 @@ import ProductRoute from './routes/products.js';
 import BillRoute from './routes/bills.js';
 import AuthRoute from './routes/auth.js';
 import userRoute from './routes/users.js';
-
-
+import logger from 'morgan'; 
 
 
 const app = express();
@@ -33,12 +32,13 @@ const connect = async () => {
 // middlewares
 app.use(express.json());
 app.use(cors())
+app.use(logger("dev"));
+
 app.use("/api/categories", CategoryRoute);
 app.use("/api/products", ProductRoute);
 app.use("/api/bills", BillRoute);
 app.use("/api/auth", AuthRoute);
 app.use("/api/users", userRoute);
-
 
 app.listen(PORT, () => {
     connect();

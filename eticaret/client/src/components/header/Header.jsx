@@ -1,6 +1,6 @@
 import React from "react";
-import {Link} from "react-router-dom";
-import { Input ,Badge} from 'antd';
+import {Link,useNavigate} from "react-router-dom";
+import { Input ,Badge,message} from 'antd';
 import {  SearchOutlined,
     HomeOutlined,
     ShoppingCartOutlined,
@@ -11,11 +11,17 @@ import {  SearchOutlined,
 
 import { useSelector } from "react-redux";    
 
-const Header = () => {
-
+const Header = ({setSearch}) => {
 
   const cart = useSelector((state) => state.cart);
-
+ const navigate = useNavigate();
+  const logOut = () => {
+    if (window.confirm("Çıkış yapmak istediğinize emin misiniz?")) {
+      localStorage.removeItem("posUser");
+      navigate("/login");
+      message.success("Çıkış işlemi başarılı.");
+    }
+  };
 
   return (
    <div className="border-b mb-2 bgcolor">
@@ -28,7 +34,7 @@ const Header = () => {
         </a>
       </div>
       <div className="header-search flex flex-1 justify-center " >
-      <Input size="large"  className="rounded-full max-w-[800px] md" placeholder="Ara"  prefix={<SearchOutlined/>} /> 
+      <Input size="large"  className="rounded-full max-w-[800px] md" placeholder="Ara" onChange={(e)=> setSearch(e.target.value.toLowerCase())}  prefix={<SearchOutlined/>} /> 
      
       </div>
       <div className="menu-links flex justify-between items-center gap-8 md:static fixed bottom-0 md:w-auto w-screen md:bg bg-transparent bgcolor left-0 md:border-t-0 border-t">
@@ -55,7 +61,7 @@ const Header = () => {
             <BarChartOutlined className="md:text-2xl text-xl justify-center" />
             <span className="md:text-xs text-[10px]">İstatistikler</span>
           </Link>
-          <a href={"/"} className="menu-link flex flex-col hover:text-[#40a9ff]">
+          <a  onClick={() => logOut()} className="menu-link flex flex-col hover:text-[#40a9ff]">
             <LogoutOutlined  className="md:text-2xl text-xl justify-center" />
             <span className="md:text-xs text-[10px]">Çıkış</span>
           </a>

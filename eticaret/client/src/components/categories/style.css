@@ -1,3 +1,9 @@
 .category-item {
-  @apply bg-green-700 px-6 py-10 text-white cursor-pointer hover:bg-pink-700 transition-all text-center min-w-[145px] flex items-center !justify-center;
+  @apply bg-[#F6E6CB] px-6 py-10 text-black cursor-pointer hover:bg-[#dad0bd]  transition-all text-center min-w-[145px] flex items-center !justify-center ;
+}
+
+
+.category-item:hover,
+.category-item:focus {
+  box-shadow: inset 0 0 0 2em var(--hover);
 }

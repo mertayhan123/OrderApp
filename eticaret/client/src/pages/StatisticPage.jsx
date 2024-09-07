@@ -13,7 +13,7 @@ import { PieChart } from '@mui/x-charts/PieChart';
 const StatisticPage = () => {
   const [data, setData] = useState([]);
   const [products, setProducts] = useState([]);
-
+  const user =JSON.parse( localStorage.getItem("posUser"))
   useEffect(() => {
     asyncFetch();
   }, []);
@@ -74,7 +74,7 @@ const StatisticPage = () => {
         <div className="statistic-section">
           <h2 className="text-center">
             Hoş geldiniz{" "}
-            <span className="text-green-700 font-bold text-xl">Admin</span>
+            <span className="text-green-700 font-bold text-xl">{user.username}</span>
           </h2>
 
           <div className="statistic-cards flex mt-5 justify-center lg:flex-row flex-col gap-4">

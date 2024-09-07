@@ -1,4 +1,4 @@
-import { Button, Carousel, Form, Input } from "antd";
+import { Button, Carousel, Form, Input, message } from "antd";
 import { Link } from "react-router-dom";
 import AuthCoursel from "../../components/auth/AuthCoursel";
 import customer from "../../images/customer.svg";
@@ -6,13 +6,47 @@ import admin from "../../images/admin.svg";
 import responsive from "../../images/responsive.svg";
 
 
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
+
 const Register = () => {
+
+
+    const [finish, setFinish] = useState(false)
+    const navigate = useNavigate();
+
+    const onFinish = async (values) => {
+      console.log(values)
+      setFinish(true)
+      try {
+           const res= await fetch ("http://localhost:3000/api/auth/register",{
+          method:"POST",
+          headers: { "Content-type": "application/json; charset=UTF-8" },
+          body: JSON.stringify(values),
+
+        }
+          
+          )
+          if(res.status===200){
+            message.success("Kayıt Başarılı")
+            setFinish(false)
+            navigate("/login")
+          }
+
+
+      }
+        catch (error) {
+          message.error("Kayıt Başarısız")
+        }
+    }
+
   return (
     <div className="h-screen">
       <div className="flex justify-between h-full">
         <div className="xl:px-20 px-10 w-full flex flex-col h-full justify-center relative">
           <h1 className="text-center text-5xl font-bold mb-2">LOGO</h1>
-          <Form layout="vertical">
+          <Form layout="vertical" onFinish={onFinish}>
             <Form.Item
               label="Kullanıcı Adı"
               name={"username"}
@@ -80,6 +114,7 @@ const Register = () => {
                 htmlType="submit"
                 className="w-full"
                 size="large"
+                loading={finish}
               >
                 Kaydol
               </Button>

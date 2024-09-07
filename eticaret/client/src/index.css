@@ -10,8 +10,16 @@ body {
   font-family: "Poetsen One", "sans-serif";
   font-weight: 400;
   font-style: normal;
+  background-color: #A0937D;
   
 }
+.raise:hover,
+.raise:focus {
+  box-shadow: 0 0.5em 0.5em -0.4em var(--hover);
+  transform: translateY(-0.25em);
+}
+
+
 
 .text-small {
   font-size: 10px !important;
@@ -30,7 +38,7 @@ body {
 }
 
 .bgcolor{
-  background-color:#C5FF95
+  background-color:#B6C7AA
 }
 
 

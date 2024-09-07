@@ -14,7 +14,7 @@ const ProductItem = ({ mert }) => {
   }  
 
   return (
-    <div className="product-item  border hover:shadow-lg cursor-pointer transition-all select-none" onClick={handleClicked}>
+    <div className="product-item  border-2 border-[#B6C7AA] hover:shadow-2xl cursor-pointer transition-all select-none bg-[#E7D4B5] raise" onClick={handleClicked}>
       <div className="product-img">
         <img
           className="h-28 object-cover w-full border-b"
@@ -22,7 +22,7 @@ const ProductItem = ({ mert }) => {
           alt=""
         />
       </div>
-      <div className="product-info flex flex-col p-3">
+      <div className="product-info flex flex-col p-3 bg">
         <span>{mert.title}</span>
 
         <span>{mert.price}₺</span>
