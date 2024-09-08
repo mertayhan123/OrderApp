@@ -66,12 +66,13 @@ const Header = ({setSearch}) => {
             <span className="md:text-xs text-[10px]">Çıkış</span>
           </a>
       </div>
-      <a href={"/"} className="flex flex-col hover:text-[#40a9ff] md:hidden ml-2 mt-2 ">
+      <Link to={"/cart"} className="flex flex-col hover:text-[#40a9ff] md:hidden ml-2 mt-2 ">
           <Badge count={cart.cartItems.length} className="hover:text-[#40a9ff]" >
             <ShoppingCartOutlined className="md:text-2xl text-xl justify-center" />
             </Badge>
             <span className="md:text-xs text-[10px]">Sepet</span>
-          </a>
+          </Link>
+     
     </header>
    </div>
   );

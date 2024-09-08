@@ -90,9 +90,8 @@ const StatisticPage = () => {
               img={Product}
             />
           </div>
-          <div className="flex justify-center gap-10 lg:flex-row flex-col items-center">
-            <div className="flex justify-center">
-              <PieChart
+          <div className="flex flex-row justify-center ">
+              <PieChart 
                 series={[
                   {
                     data: products.map((product) => ({
@@ -105,9 +104,8 @@ const StatisticPage = () => {
                 ]}
                 width={900}
                 height={500}
-              />{" "}
+              />
             </div>
-          </div>
         </div>
       </div>
     </>

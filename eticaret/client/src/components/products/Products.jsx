@@ -17,7 +17,7 @@ const Products = ({categories ,filtered,products,setProducts,search}) => {
       {filtered.filter((products)=> products.title.toLowerCase().includes(search)).map((item) => (
        <ProductItem  mert={item} />//props olarak bilerek mert adını verdim bazen karışıklık olabiliyor (deneme)
       ))}
-      <div className="product-item  border hover:shadow-lg cursor-pointer transition-all select-none bg-black flex justify-center items-center rounded-lg hover:opacity-75" onClick={()=> setIsAddModalOpen(true)}>
+      <div className="product-item  border hover:shadow-lg cursor-pointer transition-all select-none bg-black flex justify-center items-center rounded-lg hover:opacity-75 p-7" onClick={()=> setIsAddModalOpen(true)}>
       <PlusCircleOutlined className="text-8xl text-white"/>
       </div>
       <div className="product-item  border hover:shadow-lg cursor-pointer transition-all select-none bg-black flex justify-center items-center rounded-lg hover:opacity-75" onClick={()=>navigate("/product")}>

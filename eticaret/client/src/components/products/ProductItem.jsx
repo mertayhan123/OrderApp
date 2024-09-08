@@ -14,7 +14,7 @@ const ProductItem = ({ mert }) => {
   }  
 
   return (
-    <div className="product-item  border-2 border-[#B6C7AA] hover:shadow-2xl cursor-pointer transition-all select-none bg-[#E7D4B5] raise" onClick={handleClicked}>
+    <div className=" border-2 border-[#B6C7AA] hover:shadow-2xl cursor-pointer transition-all select-none bg-[#E7D4B5] raise" onClick={handleClicked}>
       <div className="product-img">
         <img
           className="h-28 object-cover w-full border-b"

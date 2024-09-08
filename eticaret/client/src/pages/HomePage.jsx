@@ -45,7 +45,7 @@ const HomePage = () => {
     <div>
       <Header setSearch={setSearch} />
       <div className="home px-6 flex flex-col justify-between md:flex-row md:pb-0 pb-10 h-screen">
-        <div className="categories flex-1 overflow-auto max-h-[calc(100vh-_-112px)] md:pb-64">
+        <div className="categories flex-1 overflow-auto max-h-[calc(100vh-_-112px)] pb-5 md:pb-64">
           <Categories
             categories={categories}
             setCategories={setCategories}
@@ -65,7 +65,7 @@ const HomePage = () => {
           />
         </div>
 
-        <div className="ml-2">
+        <div className="ml-2 hidden md:flex">
           <CartTotals />
         </div>
       </div>

@@ -82,7 +82,7 @@ const Create = ({ isModalOpen, setIsModalOpen }) => {
           
           <div className="flex justify-between">
             <b>Toplam</b>
-            <b>{cart.total}</b>
+            <b>{cart.total}TL</b>
           </div>
           <div className="flex justify-end">
             <Button

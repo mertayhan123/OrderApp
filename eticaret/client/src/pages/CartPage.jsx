@@ -208,7 +208,7 @@ const CartPage = () => {
       },
     },
     {
-      title: "Actions",
+      title: "",
       render: (_, record) => {
         return (
          <Popconfirm
@@ -242,6 +242,7 @@ const CartPage = () => {
           columns={columns}
           bordered
           pagination={false}
+          scroll={{ x: 768,  y: 600 }}
         />
         <div className="cart-total flex justify-end mt-4">
           <Card className="w-72">
