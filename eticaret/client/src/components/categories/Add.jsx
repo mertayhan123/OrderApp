@@ -1,5 +1,6 @@
 import { Button, Form, Input, message, Modal } from "antd";
 import React from "react";
+import image from "./"
 
 const Add = ({
   isAddModalOpen,
@@ -31,6 +32,7 @@ const Add = ({
   };
 
   return (
+    <img src="" alt="" />,
     <Modal
       title="Yeni Kategori Ekle"
       open={isAddModalOpen}
