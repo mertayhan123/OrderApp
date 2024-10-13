@@ -1,6 +1,5 @@
 import { Button, Form, Input, message, Modal } from "antd";
 import React from "react";
-import image from "./"
 
 const Add = ({
   isAddModalOpen,
